@@ -1,0 +1,3 @@
+# (put your own initials here)echo the date to the console every
+# 5 minutes every hour
+*/5 * * * * python /usr/lib/mp/collector.py > log.txt
