@@ -1,9 +1,11 @@
 from __future__ import print_function
-import time
+from collections import OrderedDict
 import cpu1, cpu2, disk, interface, mem
-import urllib
+import time
+import urllib, urllib2
 import uuid
 import socket
+import json
 
 def get_mac_address():
     mac=uuid.UUID(int = uuid.getnode()).hex[-12:]
@@ -32,29 +34,31 @@ def submit():
     diskIoStat = disk.disk_iostat()
     networkStat = interface.get_network_stat()
 
-    values = {'nprocs': cpuInfo['nprocs'],
+    values = {'name': socket.getfqdn(socket.gethostname()),
+              'mac_address': get_mac_address(),
+              'nprocs': cpuInfo['nprocs'],
               'cpu_model_name': value['model name'],
-              'cpu_usage': {cpu: cpuUsage[cpu] for cpu in cpuUsage.keys()},
+              'cpu_usage': cpuUsage,
               'mem_total': memInfo['MemTotal'],
               'mem_free': memInfo['MemFree'],
               'mem_used_pct': memInfo['MemUsedPct'],
-              'disk_available': diskUsage['available'],
               'disk_capacity': diskUsage['capacity'],
+              'disk_available': diskUsage['available'],
               'disk_used': diskUsage['used'],
               'disk_used_pct': diskUsage['usedPct'],
               'disk_io_stat': diskIoStat,
-              'network_stat': networkStat,
-              'mac_address': get_mac_address(),
-              'name': socket.getfqdn(socket.gethostname())
+              'network_stat': networkStat
               }
 
-    data = urllib.urlencode(values)
-
+    data = json.dumps(values)
+    print(data)
     url = "http://localhost:8888/monitor/server"
 
-    res = urllib.urlopen(url, data)
+    req = urllib2.Request(url, data)
+    res = urllib2.urlopen(req)
     content = res.read().decode()
     print(content)
+    print()
 
 if __name__ == '__main__':
     submit()
