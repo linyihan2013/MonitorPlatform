@@ -19,10 +19,10 @@ def meminfo():
     return memInfo
 
 def output():
-    info = meminfo()
-    print('Total memory: {0} MB'.format(info['MemTotal']))
-    print('Free memory: {0} MB'.format(info['MemFree']))
-    print('Used memory percentage: {0} %'.format(info['MemUsedPct']))
+    memInfo = meminfo()
+    print('Total memory: {0} MB'.format(memInfo['MemTotal']))
+    print('Free memory: {0} MB'.format(memInfo['MemFree']))
+    print('Used memory percentage: {0} %'.format(memInfo['MemUsedPct']))
     print()
 
 if __name__ == '__main__':

@@ -24,6 +24,7 @@ def read_network_stat():
 
     return netStat
 
+
 def get_network_stat():
     """
         get interface network speed.
@@ -39,13 +40,18 @@ def get_network_stat():
     if not netStat2:
         return None
 
-    for key in netStat2.keys():
-        netStat2[key]['rx_KBps'] = round((long(netStat2[key]['rx_bytes']) - long(netStat1[key]['rx_bytes'])) / (1024.0 * wait_time), 2)
-        netStat2[key]['tx_KBps'] = round((long(netStat2[key]['tx_bytes']) - long(netStat1[key]['tx_bytes'])) /  (1024.0 * wait_time), 2)
-        netStat2[key]['rx_MB'] = round(long(netStat2[key]['rx_bytes']) / (1024.0 * 1024), 2)
-        netStat2[key]['tx_MB'] = round(long(netStat2[key]['tx_bytes']) / (1024.0 * 1024), 2)
+    result = {}
 
-    return netStat2
+    for key in netStat2.keys():
+        stat = {}
+        stat['rx_KBps'] = round((long(netStat2[key]['rx_bytes']) - long(netStat1[key]['rx_bytes'])) / (1024.0 * wait_time), 2)
+        stat['tx_KBps'] = round((long(netStat2[key]['tx_bytes']) - long(netStat1[key]['tx_bytes'])) /  (1024.0 * wait_time), 2)
+        stat['rx_MB'] = round(long(netStat2[key]['rx_bytes']) / (1024.0 * 1024), 2)
+        stat['tx_MB'] = round(long(netStat2[key]['tx_bytes']) / (1024.0 * 1024), 2)
+
+        result[key] = stat
+
+    return result
 
 def output():
     netStat = get_network_stat()

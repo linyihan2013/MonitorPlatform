@@ -46,15 +46,15 @@ def get_cpu_usage():
                 cpustr2[7])
             usedCPUTime2 = float(cpustr2[1]) + long(cpustr2[2]) + long(cpustr2[3])
 
-            cpuper = round((usedCPUTime2 - usedCPUTime1) * 100 / (totalCPUTime2 - totalCPUTime1), 2)
-            cpuUsage[key] = cpuper
+            cpuPct = round((usedCPUTime2 - usedCPUTime1) * 100 / (totalCPUTime2 - totalCPUTime1), 2)
+            cpuUsage[key] = cpuPct
 
     return cpuUsage
 
 def output():
-    cs = get_cpu_usage()
-    for cpu in cs.keys():
-        print('The used percentage of {0} is : {1} %'.format(cpu, cs[cpu]))
+    cpuUsage = get_cpu_usage()
+    for cpu in cpuUsage.keys():
+        print('The used percentage of {0} is : {1} %'.format(cpu, cpuUsage[cpu]))
     print()
 
 if __name__ == '__main__':

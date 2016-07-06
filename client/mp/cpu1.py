@@ -29,9 +29,9 @@ def cpuinfo():
     return cpuInfo
 
 def output():
-    info = cpuinfo()
-    print("{0} processors.".format(info['nprocs']))
-    key, value = info.popitem(0)
+    cpuInfo = cpuinfo()
+    print("{0} processors.".format(cpuInfo['nprocs']))
+    key, value = cpuInfo.popitem(0)
     print(value['model name'])
     print()
 
