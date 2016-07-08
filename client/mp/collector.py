@@ -51,8 +51,7 @@ def submit():
               }
 
     data = json.dumps(values)
-    print(data)
-    url = "http://localhost:8888/monitor/server"
+    url = "http://localhost:8888/servers/status"
 
     req = urllib2.Request(url, data)
     res = urllib2.urlopen(req)
