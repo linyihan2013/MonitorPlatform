@@ -10,6 +10,18 @@ url = "mongodb://{0}:{1}@{2}:{3}/{4}".format(
 conn = pymongo.MongoClient(url)
 db = conn['idc']
 
+class GetServersHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        #   return the server
+
+        result = []
+        servers = db['servers']
+        for server in servers.find():
+            del server['_id']
+            result.append(server)
+
+        self.write(json.dumps(result))
+
 class ServerStatusHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         self.write("server monitoring.")
@@ -97,7 +109,8 @@ class ServerStatusHandler(tornado.web.RequestHandler):
 
 def make_app():
     return tornado.web.Application([
-        (r"/servers/status", ServerStatusHandler)
+        (r"/servers/status", ServerStatusHandler),
+        (r"/servers", GetServersHandler)
     ])
 
 if __name__ == "__main__":
