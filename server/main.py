@@ -5,6 +5,12 @@ import time, datetime
 import json
 from config import settings
 
+settings['MONGODB_DBNAME'] = 'idc'
+settings['MONGODB_USER'] = 'mp'
+settings['MONGODB_PASSWORD'] = 'mp_LYH_001*'
+settings['MONGODB_IP'] = '14.23.62.180'
+settings['MONGODB_PORT'] = '27517'
+
 url = "mongodb://{0}:{1}@{2}:{3}/{4}".format(
      settings['MONGODB_USER'], settings['MONGODB_PASSWORD'], settings['MONGODB_IP'], settings['MONGODB_PORT'], settings['MONGODB_DBNAME'])
 conn = pymongo.MongoClient(url)
@@ -38,19 +44,22 @@ class ServerStatusHandler(tornado.web.RequestHandler):
         status['datetime'] = datetime.datetime.utcnow()
 
         server_status = db['server_status']
-        server_status.insert(status)
+        server_status.insert_one(status)
 
         #   insert into server_info
         server= {}
         server['name'] = status['name']
         server['mac_address'] = status['mac_address']
         server['ip_address'] = remote_ip
+        server['nprocs'] = status['nprocs']
+        server['network_num'] = len(status['network_stat'])
+        server['disk_num'] = len(status['disk_io_stat'])
 
         servers = db['servers']
         if servers.find_one({'mac_address': server['mac_address']}):
             servers.update({'mac_address': server['mac_address']}, {'$set': server})
         else:
-            servers.insert(server)
+            servers.insert_one(server)
 
         self.write("%s \r\n" % str(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
         self.write("submit successfully.")
