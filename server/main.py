@@ -3,16 +3,15 @@ import tornado.web
 import pymongo
 import time, datetime
 import json
-from config import settings
 
-settings['MONGODB_DBNAME'] = 'idc'
+settings = {}
+settings['MONGODB_DBNAME'] = 'idc?replicaSet=bidong_nodes'
 settings['MONGODB_USER'] = 'mp'
 settings['MONGODB_PASSWORD'] = 'mp_LYH_001*'
-settings['MONGODB_IP'] = '14.23.62.180'
-settings['MONGODB_PORT'] = '27517'
+settings['MONGODB_IP'] = '14.23.62.180:27517,14.23.62.181:27517'
 
-url = "mongodb://{0}:{1}@{2}:{3}/{4}".format(
-     settings['MONGODB_USER'], settings['MONGODB_PASSWORD'], settings['MONGODB_IP'], settings['MONGODB_PORT'], settings['MONGODB_DBNAME'])
+url = "mongodb://{0}:{1}@{2}/{3}".format(
+     settings['MONGODB_USER'], settings['MONGODB_PASSWORD'], settings['MONGODB_IP'], settings['MONGODB_DBNAME'])
 conn = pymongo.MongoClient(url)
 db = conn['idc']
 
