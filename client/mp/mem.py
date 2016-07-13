@@ -13,8 +13,8 @@ def meminfo():
     if 'MemTotal' in memInfo.keys() and 'MemFree' in memInfo.keys():
         memInfo['MemTotal'] = round(long(memInfo['MemTotal'].split(' ')[0]) / 1024.0, 2)
         memInfo['MemFree'] = round(long(memInfo['MemFree'].split(' ')[0]) / 1024.0, 2)
-        usedMemory = memInfo['MemTotal'] - memInfo['MemFree']
-        memInfo['MemUsedPct'] = round(usedMemory * 100.0 / memInfo['MemTotal'], 2)
+        memInfo['MemUsed'] = memInfo['MemTotal'] - memInfo['MemFree']
+        memInfo['MemUsedPct'] = round(memInfo['MemUsed'] * 100.0 / memInfo['MemTotal'], 2)
 
     return memInfo
 

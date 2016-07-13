@@ -41,6 +41,7 @@ def submit():
               'cpu_usage': cpuUsage,
               'mem_total': memInfo['MemTotal'],
               'mem_free': memInfo['MemFree'],
+              'mem_used': memInfo['MemUsed'],
               'mem_used_pct': memInfo['MemUsedPct'],
               'disk_capacity': diskUsage['capacity'],
               'disk_available': diskUsage['available'],
