@@ -1,5 +1,6 @@
+import pymongo
+import time, datetime
 import json
-import time
 
 def output(self):
     values = json.loads(self.request.body)
@@ -52,3 +53,22 @@ def output(self):
         f.write('\n')
 
     f.close()
+
+settings = {}
+settings['MONGODB_DBNAME'] = 'idc?replicaSet=bidong_nodes'
+settings['MONGODB_USER'] = 'mp'
+settings['MONGODB_PASSWORD'] = 'mp_LYH_001*'
+settings['MONGODB_IP'] = '14.23.62.180:27517,14.23.62.181:27517'
+
+url = "mongodb://{0}:{1}@{2}/{3}".format(
+     settings['MONGODB_USER'], settings['MONGODB_PASSWORD'], settings['MONGODB_IP'], settings['MONGODB_DBNAME'])
+conn = pymongo.MongoClient(url)
+db = conn['idc']
+
+servers = db['servers']
+server_status = db['server_status']
+
+output = server_status.find({'ip_address': '172.16.17.34', 'datetime': {'$gt': datetime.datetime(2016, 7, 14, 15, 20, 0),
+                                                                        '$lt': datetime.datetime(2016, 7, 14, 15, 25, 0)}}, {'datetime': 1})
+for i in output:
+    print(i)

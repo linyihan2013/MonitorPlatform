@@ -13,7 +13,7 @@ def read_network_stat():
             if len(line.split(':')) == 2:
                 ifstat = OrderedDict()
 
-                interface = line.split(':')[0]
+                interface = line.split(':')[0].strip()
                 data = line.split(':')[1].split()
 
                 if len(data) >= 9:
@@ -43,6 +43,7 @@ def get_network_stat():
     result = {}
 
     for key in netStat2.keys():
+        key = key.strip()
         stat = {}
         stat['rx_KBps'] = round((long(netStat2[key]['rx_bytes']) - long(netStat1[key]['rx_bytes'])) / (1024.0 * wait_time), 2)
         stat['tx_KBps'] = round((long(netStat2[key]['tx_bytes']) - long(netStat1[key]['tx_bytes'])) /  (1024.0 * wait_time), 2)
