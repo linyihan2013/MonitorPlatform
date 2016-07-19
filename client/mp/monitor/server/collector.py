@@ -1,11 +1,17 @@
 from __future__ import print_function
-from collections import OrderedDict
-import cpu1, cpu2, disk, interface, mem
-import time
-import urllib, urllib2
-import uuid
-import socket
+
 import json
+import socket
+import time
+import urllib2
+import uuid
+
+import cpu1
+import cpu2
+import disk
+import interface
+import mem
+
 
 def get_mac_address():
     mac=uuid.UUID(int = uuid.getnode()).hex[-12:]
